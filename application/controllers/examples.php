@@ -246,4 +246,32 @@ class Examples extends CI_Controller {
 		}
 	}
 
+	public function customers_management3()
+	{
+		$this->load->library('grocery_crud_with_tab');
+		$crud = new grocery_crud_with_tab();
+	
+		$crud->set_table('customers');
+		$crud->columns('customerName','contactLastName','phone','city','country','salesRepEmployeeNumber','creditLimit');
+		$crud->display_as('salesRepEmployeeNumber','from Employeer')
+		->display_as('customerName','Name')
+		->display_as('contactLastName','Last Name');
+		$crud->set_subject('Customer');
+		$crud->set_relation('salesRepEmployeeNumber','employees','lastName');
+		
+		$crud->set_tab('default',  'Customer Details', array('customerName', 'salesRepEmployeeNumber', 'creditLimit'));
+		$crud->set_tab('contact', 'Customer Contact', array('contactLastName', 'contactFirstName', 'phone'));
+		$crud->set_tab('address', 'Customer Address', array('addressLine1', 'addressLine2', 'city', 'state', 'postalCode', 'country'));
+
+		//This is written exclusively because the jquery ui provided with this version of grocery crud dose not posses the tabs function.. hence had to 
+		//set the same from the cloud.
+		$crud->unset_jquery_ui();
+		$crud->unset_jquery();
+		$crud->set_css('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css', false);
+		$crud->set_js('//code.jquery.com/jquery-1.11.0.min.js', false);
+		$crud->set_js('//code.jquery.com/ui/1.10.4/jquery-ui.js', false);
+	
+		$output = $crud->render();
+		$this->_example_output($output);
+	}
 }

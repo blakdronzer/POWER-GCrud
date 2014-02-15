@@ -58,7 +58,6 @@ $(function(){
 					 success:    function(data){
 						this_form.closest('.flexigrid').find('.ajax_list').html(data);
 						call_fancybox();
-						execPostListCallbacks();
 						//add_edit_button_listener();
 					 }
 				});
